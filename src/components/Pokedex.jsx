@@ -11,13 +11,13 @@ const Pokedex = () => {
     const userName = useSelector(state => state.userName);
     const [inputSearch, setInputSearch] = useState("");
     const [types, setTypes] = useState([]);
-  
+    
     const navigate= useNavigate();
 
 
     const [pokemons, SetPokemons] = useState([]);
     useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/pokemon/')
+        axios.get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1279')
         .then(res => SetPokemons(res.data.results))
 
         axios.get("https://pokeapi.co/api/v2/type/")
@@ -34,6 +34,17 @@ navigate(`/pokedex/${inputSearch.toLowerCase()}`)
         .then(res => SetPokemons(res.data.pokemon))
     }
 
+    const [page, setpage] = useState(1)
+    // const page = 3
+    const perPage = 5
+    const lastIndex = page * perPage
+    const firstIndex = lastIndex - perPage
+    const pokemonPaginated = pokemons.slice(firstIndex,lastIndex)
+    const totalPages = Math.ceil(pokemons.length/ perPage)
+    const pages = []
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);       
+    }
 
     return (
         <div>
@@ -54,8 +65,24 @@ navigate(`/pokedex/${inputSearch.toLowerCase()}`)
                     ))}
                 </select>
             </div>
+            <div>
+                <button
+                onClick={() => setpage(page-1)}
+                disabled={page === 1}
+                >Prev page</button>
+            </div>
+            <b>{page}/{totalPages}</b>
+            <div>
+                <button
+                onClick={() => setpage(page+1)}
+                disabled={page === totalPages}
+            
+                >next page</button>
+            </div>
+            {pages.map(number => <button onClick={ ()=> setpage(number)} >{number} </button> )}
+
             <ul> {
-            pokemons.map(pokemon => (
+            pokemonPaginated.map(pokemon => (
                     <PokemonCards
                     url={pokemon.url ? pokemon.url : pokemon.pokemon.url}
                     key={pokemon.url ? pokemon.url : pokemon.pokemon.url}
