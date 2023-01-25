@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { changeUserName } from '../store/slices/userName.slice';
-import pikachu from '../assets/img/pikachu.jpg'
+import Pikachu from '../assets/img/Pikachu.jpg'
 
 const inputName = () => {
 
@@ -20,7 +20,7 @@ const inputName = () => {
         <div>
             <h1>Hello trainer!</h1>
             <div className='input-container'>
-                <img className='img-input' src={pikachu} alt="" />
+                <img className='img-input' src={Pikachu} alt="" />
                 <div className='trainer-imput'>
                     <input type="text"
                     placeholder='Give me your name to start'
