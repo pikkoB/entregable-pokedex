@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import Pokedex from './Pokedex';
+import Header from '../shared/HeaderPoke';
 
 const ProtectedRoutes = () => {
 
@@ -8,8 +8,13 @@ const ProtectedRoutes = () => {
 
 		// Aquí va la condición. Puede ser una condición de cualquier tipo. Lo que 
 		// Importa es que valide si el usuario está loggeado o no
-    if(userName !== ""){
-        return <Pokedex />
+    if(userName){
+        return(
+            <>
+            <Header/>
+             <Outlet/>
+             </>
+             )
     } else { 
         return <Navigate to='/' />
     }                     // Aquí le debemos decir la ruta a la que queremos llevar
